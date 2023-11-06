@@ -1,0 +1,16 @@
+{
+  "name": "wiki-2",
+  "version": "1.0.0",
+  "description": "WIKI2",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon ./back/index.js"
+  },
+  "author": "GuilhermePolla",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3"
+  }
+}
