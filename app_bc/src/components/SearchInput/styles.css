@@ -1,0 +1,23 @@
+.searchWrapper {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  background-color: transparent;
+  color: #969696;
+  position: absolute;
+  top: calc(50% - 12px);
+  right: 10px;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+  }
+}

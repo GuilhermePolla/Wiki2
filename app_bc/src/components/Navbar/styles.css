@@ -1,0 +1,10 @@
+.navbarWrapper {
+  width: 100%;
+  padding: 20px 100px 5px 100px;
+  display: flex;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
