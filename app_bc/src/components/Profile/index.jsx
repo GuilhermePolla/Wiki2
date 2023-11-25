@@ -1,32 +1,71 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
 import { TextInput } from "../TextInput";
 import { Title } from "../Title";
 import { Button } from "../Button";
+import { useRouter } from "next/navigation";
 
 export function Profile(props) {
   const [logged, setLogged] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const ref = useRef(null);
+  const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    async function fetchSession() {
+      const response = await fetch("/sessions");
+      const session = await response.json();
+      if (session.logged && session.type === "user") {
+        setLogged(true);
+        return router.push("/user");
+      }
+      if (session.logged && session.type === "admin") {
+        setLogged(true);
+        return router.push("/admin");
+      }
+    }
+    fetchSession();
+  }, []);
+
+  async function handleSubmit(e) {
     e.preventDefault();
-
-    const response = await fetch("/api/sessions", {
+    const response = await fetch("/sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
     });
 
-    if (response.ok) {
+    const session = await response.json();
+    if (session.logged && session.type === "user") {
+      setLogged(true);
+      return router.push("/user");
+    }
+    if (session.logged && session.type === "admin") {
       setLogged(true);
       return router.push("/admin");
-    } else {
-      alert("Erro ao fazer login");
     }
-  };
+    alert("Erro ao fazer login");
+  }
+
+  async function handleLogout() {
+    const response = await fetch("/sessions", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const { logged } = await response.json();
+    if (!logged) {
+      setLogged(false);
+      setEmail("");
+      setPassword("");
+      return router.push("/");
+    }
+    alert("Erro ao fazer logout");
+  }
 
   return (
     <div className="wrapper">
@@ -49,7 +88,9 @@ export function Profile(props) {
           </Button>
         </form>
       ) : (
-        <button>Artigos</button>
+        <Button primary type="button" onClick={handleLogout}>
+          Logout
+        </Button>
       )}
     </div>
   );
