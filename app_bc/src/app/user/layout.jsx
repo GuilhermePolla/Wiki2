@@ -10,6 +10,7 @@ export default function UserLayout({ children }) {
   const data = useSWR("/sessions", fetcher);
 
   if (data.isLoading) return <Loading />;
+
   if (data.error) {
     alert("Erro ao carregar.");
     redirect("/", "replace");

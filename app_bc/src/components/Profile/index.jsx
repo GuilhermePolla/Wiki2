@@ -5,11 +5,13 @@ import { TextInput } from "../TextInput";
 import { Title } from "../Title";
 import { Button } from "../Button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function Profile(props) {
   const [logged, setLogged] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -17,9 +19,12 @@ export function Profile(props) {
       const response = await fetch("/sessions");
       const session = await response.json();
       setLogged(session.logged);
+      setUsername(session.username);
     }
-    fetchSession();
-  }, [router]);
+    if (!logged) {
+      fetchSession();
+    }
+  }, [logged]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -35,10 +40,12 @@ export function Profile(props) {
     const session = await response.json();
     if (session.logged && session.type === "user") {
       setLogged(true);
+      setUsername(session.username);
       return router.push("/user");
     }
     if (session.logged && session.type === "admin") {
       setLogged(true);
+      setUsername(session.username);
       return router.push("/admin");
     }
     alert("Erro ao fazer login");
@@ -64,26 +71,59 @@ export function Profile(props) {
     <div className="wrapper">
       {!logged ? (
         <form onSubmit={handleSubmit}>
-          <Title>Login</Title>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextInput
-            placeholder="Senha"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button primary type="submit">
-            Entrar
-          </Button>
+          <div className="formWrapper">
+            <Title>Login</Title>
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextInput
+              placeholder="Senha"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button style={{ width: "100%" }} primary type="submit">
+              Entrar
+            </Button>
+          </div>
         </form>
       ) : (
-        <Button primary type="button" onClick={handleLogout}>
-          Logout
-        </Button>
+        <div className="loggedWrapper">
+          <div className="loggedMenuWrapper">
+            <div className="avatarWrapper">
+              <Image
+                className="avatar"
+                src="https://picsum.photos/200"
+                width={200}
+                height={200}
+                placeholder="blur"
+                blurDataURL={"https://picsum.photos/200"}
+                alt="user avatar"
+              />
+            </div>
+            <Title>Olá, {username}</Title>
+            <hr />
+            <Button style={{ width: "100%" }} type="button">
+              Change Username
+            </Button>
+            <Button style={{ width: "100%" }} type="button">
+              Change Email
+            </Button>
+            <Button style={{ width: "100%" }} type="button">
+              Change Password
+            </Button>
+          </div>
+          <Button
+            style={{ width: "100%" }}
+            primary
+            type="button"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </div>
       )}
     </div>
   );
