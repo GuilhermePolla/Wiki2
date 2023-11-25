@@ -13,9 +13,9 @@ export const ironOptions = {
   password:
     "huge_ass_password_that_has_to_be_over_32_characters_long_for_security_purposes",
   cookieOptions: {
-    // secure only works in `https` environments
-    // if your localhost is not on `https`, then use: `secure: process.env.NODE_ENV === "production"`
-    secure: process.env.NODE_ENV === "production",
+    secure: false,
+    sameSite: "lax",
+    path: "/",
   },
 };
 
@@ -35,10 +35,10 @@ export async function GET() {
   await sleep(250);
 
   if (!session.logged) {
-    return Response.json(defaultSession);
+    return NextResponse.json(defaultSession, { status: 200 });
   }
 
-  return Response.json(session);
+  return NextResponse.json(session, { status: 200 });
 }
 
 export async function POST(req) {
@@ -49,15 +49,16 @@ export async function POST(req) {
     session.logged = true;
     session.username = "ADMIN";
     session.type = "admin";
+    await session.save();
   }
 
   if (body.email === USER_EMAIL && body.password === USER_PASSWORD) {
     session.logged = true;
     session.username = "USER";
     session.type = "user";
+    await session.save();
   }
 
-  await session.save();
   await sleep(250);
 
   return NextResponse.json(session, { status: 200 });

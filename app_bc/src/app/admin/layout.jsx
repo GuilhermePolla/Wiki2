@@ -1,12 +1,23 @@
+"use client";
+
+import Loading from "@/components/Loading";
 import { redirect } from "next/navigation";
-import useSession from "@/utils/useSession";
+import useSWR from "swr";
 
-export default async function AdminLayout({ children }) {
-  const { type } = await useSession();
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-  if (type !== "admin") {
+export default function AdminLayout({ children }) {
+  const data = useSWR("/sessions", fetcher);
+  if (data.isLoading) return <Loading />;
+  if (data.error) {
+    alert("Erro ao carregar.");
     redirect("/", "replace");
   }
 
-  return children;
+  if (!data.isLoading) {
+    if (data.data.logged && data.data.type === "admin") {
+      return children;
+    }
+    redirect("/", "replace");
+  }
 }

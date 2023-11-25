@@ -1,12 +1,24 @@
+"use client";
+
+import Loading from "@/components/Loading";
 import { redirect } from "next/navigation";
-import useSession from "@/utils/useSession";
+import useSWR from "swr";
 
-export default async function UserLayout({ children }) {
-  const { type } = await useSession();
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-  if (type !== "user") {
+export default function UserLayout({ children }) {
+  const data = useSWR("/sessions", fetcher);
+
+  if (data.isLoading) return <Loading />;
+  if (data.error) {
+    alert("Erro ao carregar.");
     redirect("/", "replace");
   }
 
-  return children;
+  if (!data.isLoading) {
+    if (data.data.logged && data.data.type === "user") {
+      return children;
+    }
+    redirect("/", "replace");
+  }
 }

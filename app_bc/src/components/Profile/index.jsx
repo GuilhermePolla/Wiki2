@@ -16,17 +16,10 @@ export function Profile(props) {
     async function fetchSession() {
       const response = await fetch("/sessions");
       const session = await response.json();
-      if (session.logged && session.type === "user") {
-        setLogged(true);
-        return router.push("/user");
-      }
-      if (session.logged && session.type === "admin") {
-        setLogged(true);
-        return router.push("/admin");
-      }
+      setLogged(session.logged);
     }
     fetchSession();
-  }, []);
+  }, [router]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -57,8 +50,8 @@ export function Profile(props) {
       headers: { "Content-Type": "application/json" },
     });
 
-    const { logged } = await response.json();
-    if (!logged) {
+    const session = await response.json();
+    if (!session.logged) {
       setLogged(false);
       setEmail("");
       setPassword("");
