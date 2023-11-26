@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import { TextInput } from "../TextInput";
@@ -6,25 +6,26 @@ import { Title } from "../Title";
 import { Button } from "../Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import useSession from "@/utils/useSession";
 
-export function Profile(props) {
-  const [logged, setLogged] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+export async function Profile(props) {
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
   const router = useRouter();
+  const session = await useSession();
 
-  useEffect(() => {
-    async function fetchSession() {
-      const response = await fetch("/sessions");
-      const session = await response.json();
-      setLogged(session.logged);
-      setUsername(session.username);
-    }
-    if (!logged) {
-      fetchSession();
-    }
-  }, [logged]);
+  // useEffect(() => {
+  //   async function fetchSession() {
+  //     const response = await fetch("/sessions");
+  //     const session = await response.json();
+  //     setLogged(session.logged);
+  //     setUsername(session.username);
+  //   }
+  //   if (!logged) {
+  //     fetchSession();
+  //   }
+  // }, [logged]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -69,27 +70,7 @@ export function Profile(props) {
 
   return (
     <div className="wrapper">
-      {!logged ? (
-        <form onSubmit={handleSubmit}>
-          <div className="formWrapper">
-            <Title>Login</Title>
-            <TextInput
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextInput
-              placeholder="Senha"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button style={{ width: "100%" }} primary type="submit">
-              Entrar
-            </Button>
-          </div>
-        </form>
-      ) : (
+      {session.logged ? (
         <div className="loggedWrapper">
           <div className="loggedMenuWrapper">
             <div className="avatarWrapper">
@@ -103,7 +84,7 @@ export function Profile(props) {
                 alt="user avatar"
               />
             </div>
-            <Title>Olá, {username}</Title>
+            <Title>Olá, {session.username}</Title>
             <hr />
             <Button style={{ width: "100%" }} type="button">
               Change Username
@@ -124,6 +105,26 @@ export function Profile(props) {
             Logout
           </Button>
         </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="formWrapper">
+            <Title>Login</Title>
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextInput
+              placeholder="Senha"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button style={{ width: "100%" }} primary type="submit">
+              Entrar
+            </Button>
+          </div>
+        </form>
       )}
     </div>
   );

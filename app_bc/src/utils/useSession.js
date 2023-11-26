@@ -1,8 +1,9 @@
-import { cookies } from "next/headers";
-import { getIronSession } from "iron-session";
-import { ironOptions } from "@/app/sessions/route";
-
 export default async function useSession() {
-  const session = await getIronSession(cookies(), ironOptions);
-  return session;
+  // const session = await getIronSession(cookies(), ironOptions);
+  async function fetchSession() {
+    const response = await fetch("http://localhost:3000/sessions");
+    const session = await response.json();
+    return session;
+  }
+  return fetchSession();
 }

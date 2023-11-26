@@ -9,7 +9,7 @@ import { Profile } from "../Profile";
 import useOnClickOutsideRef from "@/utils/useOnClickOutsideRef";
 import Loading from "../Loading";
 
-export function Dashboard() {
+export function Dashboard(props) {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const modalRef = useOnClickOutsideRef(() => setOpen(false));
@@ -23,7 +23,11 @@ export function Dashboard() {
           onClick={() => setOpen(true)}
           cursor={"pointer"}
         />
-        {open && <Profile />}
+        {open && (
+          <Suspense fallback={<p style={{ color: "white" }}>Loading...</p>}>
+            <Profile />
+          </Suspense>
+        )}
       </div>
       <h1 className="title">Base De Conhecimento</h1>
       <SearchInput
