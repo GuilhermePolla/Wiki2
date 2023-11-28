@@ -70,7 +70,14 @@ function FrontScroller(props) {
       />
       <div style={{ position: "fixed", top: 141, right: 0, zIndex: 1 }}>
         {mockup.map((item) => {
-          return <h1 key={item.id}>{item.title}</h1>;
+          return (
+            <h1
+              key={item.id}
+              style={{ color: item.id === id.toString() ? "red" : "initial" }}
+            >
+              {item.title}
+            </h1>
+          );
         })}
       </div>
     </div>
