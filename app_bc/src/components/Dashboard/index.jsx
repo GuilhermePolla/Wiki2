@@ -39,7 +39,7 @@ export function Dashboard(props) {
         />
         {open && (
           <div className="wrapper">
-            <Suspense fallback={<Loader style={{ marginLeft: "5px" }} />}>
+            <Suspense fallback={<Loader />}>
               <Profile session={session} setSession={setSession} />
             </Suspense>
           </div>

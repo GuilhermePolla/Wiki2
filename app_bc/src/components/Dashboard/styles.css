@@ -1,12 +1,12 @@
 .dashboard {
   padding: 15px;
-  background-color: rgba(55, 55, 55, 0.1);
+  background-color: rgba(55, 55, 55, 0.3);
   width: 100%;
   height: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(55, 55, 55, 0.2);
+  border-bottom: 1px solid rgba(55, 55, 55, 0.4);
   flex-wrap: wrap;
 }
 
