@@ -3,6 +3,7 @@ import "./styles.css";
 function FeaturedCards(props) {
   return (
     <div className="sideCardsWrapper">
+      <h1 className="sideCardsTitle">Artigos TOP</h1>
       {props.data.map((item) => {
         return (
           <div

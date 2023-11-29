@@ -4,6 +4,7 @@ import Image from "next/image";
 import "./styles.css";
 import FeaturedCards from "./FeaturedCards";
 import LikedCards from "./LikedCards";
+import FeaturedCaller from "./FeaturedCaller";
 
 const mockup = [
   {
@@ -46,10 +47,55 @@ const mockup = [
     likes: "5",
     img: "https://picsum.photos/",
   },
+  {
+    id: "6",
+    title: "title 6",
+    content: "content 6",
+    date: "date 6",
+    likes: "6",
+    img: "https://picsum.photos/",
+  },
+  {
+    id: "7",
+    title: "title 7",
+    content: "content 7",
+    date: "date 7",
+    likes: "7",
+    img: "https://picsum.photos/",
+  },
+  {
+    id: "8",
+    title: "title 8",
+    content: "content 8",
+    date: "date 8",
+    likes: "8",
+    img: "https://picsum.photos/",
+  },
+  {
+    id: "9",
+    title: "title 9",
+    content: "content 9",
+    date: "date 9",
+    likes: "9",
+    img: "https://picsum.photos/",
+  },
+  {
+    id: "10",
+    title: "title 10",
+    content: "content 10",
+    date: "date 10",
+    likes: "10",
+    img: "https://picsum.photos/",
+  },
 ];
 
 function FrontScroller(props) {
   const [id, setId] = useState(1);
+  const [data, setData] = useState(mockup[0]);
+
+  useEffect(() => {
+    setData(mockup[id - 1]);
+  }, [id]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -70,18 +116,21 @@ function FrontScroller(props) {
     <div className="frontScrollerWrapper">
       <Image
         alt="Document image"
-        src={`https://picsum.photos/1366/699?random=${id}`}
+        src={`https://picsum.photos/1366/659?grayscale&random=${id}`}
         width={1366}
-        height={699}
+        height={659}
         style={{
           position: "absolute",
           top: -181,
           left: 0,
           zIndex: -1,
+          width: "100%",
+          height: "calc(100vh + 65px)",
         }}
       />
 
       <FeaturedCards data={mockup} active={id} setId={setId} />
+      <FeaturedCaller data={data} />
       <LikedCards data={mockup} />
     </div>
   );

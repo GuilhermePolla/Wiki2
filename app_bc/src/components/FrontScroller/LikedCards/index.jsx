@@ -1,9 +1,12 @@
+"use client";
+import { useHorizontalScroll } from "@/utils/useHorizontalScroll";
 import "./styles.css";
 
 function LikedCards(props) {
+  const scrollRef = useHorizontalScroll();
   return (
     <div className="likedCardsWrapper">
-      <div className="likedCard">
+      <div ref={scrollRef} className="likedCard">
         {props.data.map((item) => {
           return (
             <div key={item.id} className="likedCardText">

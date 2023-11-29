@@ -18,7 +18,8 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 90%;
+  width: fit-content;
+  max-width: 90%;
   height: 120px;
   gap: 20px;
   padding: 10px;
@@ -30,7 +31,6 @@
   width: 200px;
   height: 100px;
   padding: 8px;
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -51,14 +51,14 @@
 .likedCardText h3 {
   padding: 2px 4px;
   background-color: #e55b0b;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: white;
 }
 
 .likedCardText h4 {
   padding: 2px 4px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.3);
 }
