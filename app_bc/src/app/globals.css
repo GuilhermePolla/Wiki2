@@ -11,3 +11,7 @@
 body {
   background: #111;
 }
+
+main {
+  height: calc(100vh - 140px);
+}

@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import "./styles.css";
+import FeaturedCards from "./FeaturedCards";
+import LikedCards from "./LikedCards";
 
 const mockup = [
   {
@@ -50,36 +52,37 @@ function FrontScroller(props) {
   const [id, setId] = useState(1);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setId((current) => {
-        if (current === 5) {
+        if (current === mockup.length) {
           return 1;
         }
         return current + 1;
       });
     }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   });
 
   return (
-    <div style={{ position: "fixed", top: 0, left: 0, zIndex: -1 }}>
+    <div className="frontScrollerWrapper">
       <Image
         alt="Document image"
-        src={`https://picsum.photos/1366/700?random=${id}`}
+        src={`https://picsum.photos/1366/699?random=${id}`}
         width={1366}
-        height={700}
+        height={699}
+        style={{
+          position: "absolute",
+          top: -181,
+          left: 0,
+          zIndex: -1,
+        }}
       />
-      <div style={{ position: "fixed", top: 141, right: 0, zIndex: 1 }}>
-        {mockup.map((item) => {
-          return (
-            <h1
-              key={item.id}
-              style={{ color: item.id === id.toString() ? "red" : "initial" }}
-            >
-              {item.title}
-            </h1>
-          );
-        })}
-      </div>
+
+      <FeaturedCards data={mockup} active={id} setId={setId} />
+      <LikedCards data={mockup} />
     </div>
   );
 }

@@ -1,13 +1,11 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
-import { ChevronRight, Menu, SearchIcon } from "lucide-react";
-import { TextInput } from "../TextInput";
+import { Menu } from "lucide-react";
 import "./styles.css";
 import { SearchInput } from "../SearchInput";
 import { Navbar } from "../Navbar";
 import { Profile } from "../Profile";
 import useOnClickOutsideRef from "@/utils/useOnClickOutsideRef";
-import Loading from "../Loading";
 import Loader from "../Loader";
 import { useRouter } from "next/navigation";
 

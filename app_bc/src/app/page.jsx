@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main>
-      <Link href="/admin">
+      {/* <Link href="/admin">
         <Button>admin</Button>
       </Link>
       <Link href="/user">
@@ -13,7 +13,7 @@ export default function Home() {
       </Link>
       <Link href={`document/?id=${789}`}>
         <Button>document</Button>
-      </Link>
+      </Link> */}
       <FrontScroller />
     </main>
   );
