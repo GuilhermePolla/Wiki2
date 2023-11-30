@@ -17,6 +17,7 @@
 .likedCard {
   display: flex;
   justify-content: flex-start;
+  flex-direction: row;
   align-items: center;
   width: fit-content;
   max-width: 90%;
@@ -24,11 +25,16 @@
   gap: 20px;
   padding: 10px;
   background-color: white;
+  overflow-x: scroll;
+}
+
+.likedCard::-webkit-scrollbar {
+  display: none;
 }
 
 .likedCardText {
   color: black;
-  width: 200px;
+  min-width: 200px;
   height: 100px;
   padding: 8px;
   display: flex;
