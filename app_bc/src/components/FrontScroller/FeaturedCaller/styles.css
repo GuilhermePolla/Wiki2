@@ -1,0 +1,28 @@
+.featuredCallerWrapper {
+  position: absolute;
+  top: 20%;
+  left: 7%;
+  color: white;
+  z-index: 10;
+  width: 500px;
+  height: fit-content;
+}
+
+.featuredCallerText {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.featuredCallerText h1 {
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  font-weight: 800;
+}
+
+.featuredCallerText h3 {
+  color: rgba(255, 255, 255, 0.8);
+}
