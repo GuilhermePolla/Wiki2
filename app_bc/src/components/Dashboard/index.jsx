@@ -1,6 +1,6 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu } from "lucide-
 import "./styles.css";
 import { SearchInput } from "../SearchInput";
 import { Navbar } from "../Navbar";

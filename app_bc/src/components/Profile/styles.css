@@ -29,3 +29,35 @@
   flex-direction: column;
   gap: 15px;
 }
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loggedWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.avatarWrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.loggedMenuWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
