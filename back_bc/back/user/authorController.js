@@ -22,7 +22,7 @@ const saveAuthor = async (authorData) => {
     
     try {
       newAuthorId = await authorId();
-      newAuthor.authorId = newAuthorId;
+      newAuthor._id = newAuthorId;
       const savedAuthor = await newAuthor.save();
       return savedAuthor;
     } catch (error) {
