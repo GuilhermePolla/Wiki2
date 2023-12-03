@@ -32,61 +32,74 @@ const saveAuthor = async (authorData) => {
   };
 
 
-  const getAuthorByUser = async (authorUser) => {
-    try {
-      const author = await Author.findOne({ authorUser: authorUser });
-      return author;
-    } catch (error) {
-      throw new Error(`Erro ao buscar autor pelo nome do autor: ${error.message}`);
-    }
-  };
+const getAuthorByUser = async (authorUser) => {
+  try {
+    const author = await Author.findOne({ authorUser: authorUser });
+    return author;
+  } catch (error) {
+    throw new Error(`Erro ao buscar autor pelo nome do autor: ${error.message}`);
+  }
+};
 
-  const getAllAuthors = async () => {
-    try {
-      const authors = await Author.find();
-      return authors;
-    } catch (error) {
-      throw new Error(`Erro ao buscar todos os autores: ${error.message}`);
-    }
-  };
+const getAllAuthors = async () => {
+  try {
+    const authors = await Author.find();
+    return authors;
+  } catch (error) {
+    throw new Error(`Erro ao buscar todos os autores: ${error.message}`);
+  }
+};
 
-  const deleteAuthor = async (authorUser) => {
-    try{
-      const author = await Author.findOne({authorName: authorUser});
-      author.authorStatus = false;
-      author.save();
-      return(author);
-    } catch(error){
-      throw new Error(`Erro ao desabilitar autor: ${error.message}`);
-    }
-  };
+const deleteAuthor = async (authorUser) => {
+  try{
+    const author = await Author.findOne({authorName: authorUser});
+    author.authorStatus = false;
+    author.save();
+    return(author);
+  } catch(error){
+    throw new Error(`Erro ao desabilitar autor: ${error.message}`);
+  }
+};
 
-  const enableAuthor = async (authorUser) => {
-    try{
-      const author = await Author.findOne({authorName: authorUser});
-      author.authorStatus = true;
-      author.save();
-      return(author);
-    } catch(error){
-      throw new Error(`Erro ao habilitar autor: ${error.message}`);
-    }
-  };
+const enableAuthor = async (authorUser) => {
+  try{
+    const author = await Author.findOne({authorName: authorUser});
+    author.authorStatus = true;
+    author.save();
+    return(author);
+  } catch(error){
+    throw new Error(`Erro ao habilitar autor: ${error.message}`);
+  }
+};
 
-  const editAuthor = async(reqAuthor, editedAuthor) => {
-    try{
-      const authorUser = reqAuthor.authorUser;
-      const author = await Author.findOne({authorUser: authorUser});
-      author.authorName = editedAuthor.authorName;
-      author.authorEmail = editedAuthor.authorEmail;
-      author.authorUser = editedAuthor.authorUser;
-      author.authorPwd = hashPwd(editedAuthor);
-      author.save();
-      return(author);
-    }catch(error){
-      throw new Error(`Erro ao Editar Usuario: ${error.message}`)
-    }
-
-
+const editAuthor = async(reqAuthor, editedAuthor) => {
+  try{
+    const authorUser = reqAuthor.authorUser;
+    const author = await Author.findOne({authorUser: authorUser});
+    author.authorName = editedAuthor.authorName;
+    author.authorEmail = editedAuthor.authorEmail;
+    author.authorUser = editedAuthor.authorUser;
+    author.authorPwd = hashPwd(editedAuthor);
+    author.save();
+    return(author);
+  }catch(error){
+    throw new Error(`Erro ao Editar Usuario: ${error.message}`)
   }
 
-module.exports = {saveAuthor, getAuthorByUser, getAllAuthors, deleteAuthor, enableAuthor, editAuthor};
+
+}
+
+const getById = async(id) => {
+  try {
+    const author = await Author.findOne({ _id: id });
+    const payload = {
+      authorName: author.authorName,
+      authorUser: author.authorEmail
+  };
+    return payload;
+  } catch (error) {
+    throw new Error(`Erro ao buscar pelo autor: ${error.message}`);
+  }
+}
+
+module.exports = {saveAuthor, getAuthorByUser, getAllAuthors, deleteAuthor, enableAuthor, editAuthor, getById};

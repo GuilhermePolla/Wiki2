@@ -91,6 +91,22 @@ authorRouter.post('/edit-author/',authentication, async (req, res) =>{
     res.status(500).json({erro: 'Erro ao editar autor', detalhes: error.message });
   }
 })
+
+authorRouter.get('/get-by-id/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const author = await authorControler.getById(id);
+
+    if (!author) {
+      res.status(404).json({ erro: 'Autor não encontrado' });
+      return;
+    }
+
+    res.json({ autor: author });
+  } catch (error) {
+    res.status(500).json({ erro: 'Erro ao buscar autor', detalhes: error.message });
+  }
+});
   
   
 module.exports = authorRouter;

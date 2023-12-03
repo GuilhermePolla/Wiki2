@@ -42,7 +42,12 @@ const logIn= async (authorData) => {
                }
         });
         const savedAuthor = await author.save();
-        return(author.authorToken);
+        const payload = {
+            authorToken: author.authorToken,
+            authorUser: author.authorUser,
+            authorLevel: author.authorLevel
+        }
+        return(payload);
     }
     catch(error){
     throw new Error(`Erro ao logar autor: ${error.message}`);
