@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import "./styles.css";
