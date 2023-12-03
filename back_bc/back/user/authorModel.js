@@ -7,7 +7,9 @@ const authorSchema = new mongoose.Schema({
     authorUser: String,
     authorPwd: String,
     authorLevel: {type: String, default: 'user'},
-    authorStatus: { type :Boolean, default: true}
+    authorStatus: { type :Boolean, default: true},
+    authorToken: {type: String, default: null}
+    
 
 }
 );

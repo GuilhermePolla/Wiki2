@@ -1,5 +1,7 @@
 const express = require ('express');
 const authorControler = require ('./authorController');
+const authentication = require('../authenticator/middlewere');
+
 
 const authorRouter = express.Router();
 
@@ -73,21 +75,20 @@ authorRouter.put('/enable-author/:authorUser', async (req, res) =>{
     }
 });
 
-authorRouter.post('/edit-author/:authorUser', async (req, res) =>{
+authorRouter.post('/edit-author/',authentication, async (req, res) =>{
   try{
-    const authorUser = req.params.authorUser;
-    const editedAuthor = await authorControler.editAuthor(authorUser, req.body);
+    const editedAuthor = await authorControler.editAuthor(req.author, req.body);
     if(!editedAuthor){
       res.status(404).json({ erro: `Autor não encontrado: ${authorUser}` });
       return;
   }
   res.json({
-    Mensagem: `O Autor ${authorUser} foi editado com sucesso!`,
+    Mensagem: `O Autor ${editedAuthor.authorUser} foi editado com sucesso!`,
     Author: editedAuthor
   });
   }
   catch(error){
-    res.status(500).json({erro: 'Erro ao editar autorteste', detalhes: error.message });
+    res.status(500).json({erro: 'Erro ao editar autor', detalhes: error.message });
   }
 })
   

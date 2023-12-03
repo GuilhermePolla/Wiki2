@@ -1,5 +1,6 @@
 const Author = require('./authorModel');
 const crypto = require('crypto');
+const auth = require('../authenticator/authenticator_controler')
 
 function hashPwd(authorData){
   const hash = crypto.createHash('sha256');
@@ -33,7 +34,7 @@ const saveAuthor = async (authorData) => {
 
   const getAuthorByUser = async (authorUser) => {
     try {
-      const author = await Author.findOne({ authorName: authorUser });
+      const author = await Author.findOne({ authorUser: authorUser });
       return author;
     } catch (error) {
       throw new Error(`Erro ao buscar autor pelo nome do autor: ${error.message}`);
@@ -71,14 +72,15 @@ const saveAuthor = async (authorData) => {
     }
   };
 
-  const editAuthor = async(authorUser, editedAuthor) => {
+  const editAuthor = async(reqAuthor, editedAuthor) => {
     try{
-      const author = await Author.findOne({authorName: authorUser});
+      const authorUser = reqAuthor.authorUser;
+      const author = await Author.findOne({authorUser: authorUser});
       author.authorName = editedAuthor.authorName;
       author.authorEmail = editedAuthor.authorEmail;
       author.authorUser = editedAuthor.authorUser;
       author.authorPwd = hashPwd(editedAuthor);
-      author.save;
+      author.save();
       return(author);
     }catch(error){
       throw new Error(`Erro ao Editar Usuario: ${error.message}`)
