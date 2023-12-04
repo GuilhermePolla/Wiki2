@@ -1,12 +1,7 @@
 import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
 import { NextResponse } from "next/server";
-
-const USER_EMAIL = "user";
-const USER_PASSWORD = "user";
-
-const ADMIN_EMAIL = "admin";
-const ADMIN_PASSWORD = "admin";
+import axios from "axios";
 
 export const ironOptions = {
   cookieName: "BC_SESSION",
@@ -19,22 +14,12 @@ export const ironOptions = {
   },
 };
 
-export const defaultSession = {
-  username: "",
-  logged: false,
-  type: "guest",
-};
-
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+export const defaultSession = null;
 
 export async function GET() {
   const session = await getIronSession(cookies(), ironOptions);
 
-  await sleep(250);
-
-  if (!session.logged) {
+  if (session === null) {
     return NextResponse.json(defaultSession, { status: 200 });
   }
 
@@ -45,22 +30,22 @@ export async function POST(req) {
   const session = await getIronSession(cookies(), ironOptions);
   const body = await req.json();
 
-  if (body.email === ADMIN_EMAIL && body.password === ADMIN_PASSWORD) {
-    session.logged = true;
-    session.username = "ADMIN";
-    session.type = "admin";
+  try {
+    const { data } = await axios({
+      method: "get",
+      url: "http://localhost:3001/authenticator/log-in",
+      data: {
+        authorUser: body.email,
+        authorPwd: body.password,
+      },
+    });
+    session.authorToken = data.payload.authorToken;
+    session.authorUser = data.payload.authorUser;
+    session.authorLevel = data.payload.authorLevel;
     await session.save();
+  } catch (err) {
+    console.log(err);
   }
-
-  if (body.email === USER_EMAIL && body.password === USER_PASSWORD) {
-    session.logged = true;
-    session.username = "USER";
-    session.type = "user";
-    await session.save();
-  }
-
-  await sleep(250);
-
   return NextResponse.json(session, { status: 200 });
 }
 

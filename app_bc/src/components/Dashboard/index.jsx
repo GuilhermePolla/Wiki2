@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import "./styles.css";
@@ -18,10 +19,10 @@ export function Dashboard(props) {
 
   useEffect(() => {
     if (session === null || session === undefined) return;
-    if (session.logged && session.type === "user") {
+    if (session.authorLevel === "user") {
       router.push("/user");
     }
-    if (session.logged && session.type === "admin") {
+    if (session.authorLevel === "admin") {
       router.push("/admin");
     }
   }, [session, router]);

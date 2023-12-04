@@ -5,43 +5,39 @@ import { Title } from "../Title";
 import { Button } from "../Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import axios from "axios";
 
 export async function Profile({ session, setSession }) {
   const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await fetch("/sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: e.target.email.value,
-        password: e.target.password.value,
-      }),
-    });
 
-    const session = await response.json();
-    if (session.logged && session.type === "user") {
-      setSession(session);
-      return;
+    try {
+      const res = await axios.post("/sessions", {
+        email: "nomeusuario3",
+        password: "senha123",
+      });
+
+      if (res.data !== null) {
+        setSession(res.data);
+        return;
+      } else {
+        setSession(null);
+        alert("Erro ao fazer login");
+      }
+
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
     }
-    if (session.logged && session.type === "admin") {
-      setSession(session);
-      return;
-    }
-    setSession(undefined);
-    alert("Erro ao fazer login");
   }
 
   async function handleLogout() {
-    const response = await fetch("/sessions", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const session = await response.json();
-    if (!session.logged) {
-      setSession(undefined);
+    const response = await axios.delete("/sessions");
+    const session = response.data;
+    if (session === null) {
+      setSession(null);
       return router.push("/");
     }
     alert("Erro ao fazer logout");
@@ -49,7 +45,7 @@ export async function Profile({ session, setSession }) {
 
   return (
     <>
-      {session?.logged ? (
+      {session !== null ? (
         <div className="loggedWrapper">
           <div className="loggedMenuWrapper">
             <div className="avatarWrapper">
@@ -65,7 +61,7 @@ export async function Profile({ session, setSession }) {
                 as="img"
               />
             </div>
-            <Title>Olá, {session.username}</Title>
+            <Title>Olá, {session.authorUser}</Title>
             <hr />
             <Button style={{ width: "100%" }} type="button">
               Change Username
