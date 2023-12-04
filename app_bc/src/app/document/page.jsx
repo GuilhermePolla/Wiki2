@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import { ThumbsUp } from "lucide-react";
+import dateConverter from "@/utils/dateConverter";
 
 async function handleLike(id, setArticle) {
   try {
@@ -19,14 +20,15 @@ async function handleLike(id, setArticle) {
   }
 }
 
-async function getArticle(id, setArticle) {
+async function getArticle(id, setArticle, setAuthor) {
   try {
     const article = await axios.get(
       `http://localhost:3001/article/get-by-id/${id}`
     );
-    // const author = await axios.get(
-    //   `http://localhost:3001/user/get-by-id/${article.data.artigo.article_author_id}`
-    // );
+    const author = await axios.get(
+      `http://localhost:3001/author/get-by-id/${article.data.artigo.article_author_id}`
+    );
+    setAuthor(author.data.autor);
     setArticle(article.data.artigo);
   } catch (err) {
     console.log(err);
@@ -35,12 +37,13 @@ async function getArticle(id, setArticle) {
 
 export default function Document() {
   const [article, setArticle] = useState(undefined);
+  const [author, setAuthor] = useState(undefined);
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
   useEffect(() => {
-    getArticle(id, setArticle);
+    getArticle(id, setArticle, setAuthor);
   }, []);
 
   return (
@@ -202,10 +205,12 @@ export default function Document() {
           </div>
         </div>
         <div className="articleInfo">
-          <h2>Id:</h2>
-          <p>{article?._id}</p>
+          <h2>Autor:</h2>
+          <p>{author?.authorName}</p>
+          <h2>Email:</h2>
+          <p>{author?.authorUser}</p>
           <h2>Publicação:</h2>
-          <p>{article?.article_published_date}</p>
+          <p>{dateConverter(article?.article_published_date)}</p>
         </div>
       </div>
     </div>
