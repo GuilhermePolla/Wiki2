@@ -1,0 +1,18 @@
+.deleteUserWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.deleteUserButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 10px;
+}

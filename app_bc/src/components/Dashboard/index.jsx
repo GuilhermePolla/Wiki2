@@ -24,6 +24,8 @@ export function Dashboard(props) {
     }
     if (session.authorLevel === "admin") {
       router.push("/admin");
+    } else {
+      router.push("/");
     }
   }, [session, router]);
 
