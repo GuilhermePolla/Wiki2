@@ -6,6 +6,7 @@ import { Button } from "../Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
+import Link from "next/link";
 
 export async function Profile({ session, setSession }) {
   const router = useRouter();
@@ -15,8 +16,8 @@ export async function Profile({ session, setSession }) {
 
     try {
       const res = await axios.post("/sessions", {
-        email: "nomeusuario3",
-        password: "senha123",
+        email: e.target.email.value,
+        password: e.target.password.value,
       });
 
       if (res.data !== null) {
@@ -63,6 +64,11 @@ export async function Profile({ session, setSession }) {
             </div>
             <Title>Olá, {session.authorUser}</Title>
             <hr />
+            <Link href={`/${session.authorLevel}`}>
+              <Button style={{ width: "100%" }} type="button">
+                Painel
+              </Button>
+            </Link>
             <Button style={{ width: "100%" }} type="button">
               Change Username
             </Button>

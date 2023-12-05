@@ -1,22 +1,45 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/Button";
+import "./styles.css";
+import ManageUsers from "@/components/ManageUsers";
+import NewUser from "@/components/NewUser";
+import { Title } from "@/components/Title";
 
 export default function Admin() {
   const [option, setOption] = useState();
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
-      <h1>Admin</h1>
-      <Button onClick={() => setOption("newArticle")}>New Article</Button>
-      <Button onClick={() => setOption("manageArticles")}>
-        Manage Articles
-      </Button>
-      <Button onClick={() => setOption("newUser")}>New User</Button>
-      <Button onClick={() => setOption("manageUsers")}>Manage Users</Button>
-      {option === "newArticle" && <p>Formulario newArticle</p>}
-      {option === "manageArticles" && <p>Lista manageArticles</p>}
-      {option === "newUser" && <p>Formulario newUser</p>}
-      {option === "manageUsers" && <p>Lista manageUsers</p>}
+    <div className="adminWrapper">
+      <div className="adminButtons">
+        <Title>Opções</Title>
+        <Button
+          style={{ width: "100%" }}
+          onClick={() => setOption("newArticle")}
+        >
+          New Article
+        </Button>
+        <Button
+          style={{ width: "100%" }}
+          onClick={() => setOption("manageArticles")}
+        >
+          Manage Articles
+        </Button>
+        <Button style={{ width: "100%" }} onClick={() => setOption("newUser")}>
+          New User
+        </Button>
+        <Button
+          style={{ width: "100%" }}
+          onClick={() => setOption("manageUsers")}
+        >
+          Manage Users
+        </Button>
+      </div>
+      <div className="adminContent">
+        {option === "newArticle" && <p>Formulario newArticle</p>}
+        {option === "manageArticles" && <p>Lista manageArticles</p>}
+        {option === "newUser" && <NewUser />}
+        {option === "manageUsers" && <ManageUsers />}
+      </div>
     </div>
   );
 }
