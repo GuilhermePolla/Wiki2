@@ -1,0 +1,38 @@
+
+label{
+    color: white;
+}
+
+.form_box{
+    background-color: #262424;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+    padding: 20px 30px;
+    text-align: center;
+    margin-bottom: 10vh;
+    align-items: center;
+    border-radius: 18px;
+}
+
+.container{
+    padding-top: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title_form{
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e55b0b;
+}
+
+textarea{
+    border-bottom: 2px solid #323232;
+    background-color: #dadada;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    width: 100%;
+}
