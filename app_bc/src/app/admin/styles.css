@@ -1,6 +1,6 @@
 .adminWrapper {
   width: 100%;
-  height: calc(100vh - 116px);
+  height: calc(100vh - 91px);
   /* height: fit-content; */
   display: flex;
   gap: 30px;
