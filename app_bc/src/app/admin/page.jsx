@@ -3,12 +3,15 @@ import { useState } from "react";
 import { Button } from "@/components/Button";
 import "./styles.css";
 import ManageUsers from "@/components/ManageUsers";
+import NewUser from "@/components/NewUser";
+import { Title } from "@/components/Title";
 
 export default function Admin() {
   const [option, setOption] = useState();
   return (
     <div className="adminWrapper">
       <div className="adminButtons">
+        <Title>Opções</Title>
         <Button
           style={{ width: "100%" }}
           onClick={() => setOption("newArticle")}
@@ -34,7 +37,7 @@ export default function Admin() {
       <div className="adminContent">
         {option === "newArticle" && <p>Formulario newArticle</p>}
         {option === "manageArticles" && <p>Lista manageArticles</p>}
-        {option === "newUser" && <p>Formulario newUser</p>}
+        {option === "newUser" && <NewUser />}
         {option === "manageUsers" && <ManageUsers />}
       </div>
     </div>

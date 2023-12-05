@@ -1,7 +1,7 @@
 .adminWrapper {
   width: 100%;
-  min-height: calc(100vh - 116px);
-  height: fit-content;
+  height: calc(100vh - 116px);
+  /* height: fit-content; */
   display: flex;
   gap: 30px;
   padding: 30px;
@@ -19,5 +19,5 @@
 
 .adminContent {
   width: 100%;
-  height: fit-content;
+  height: 100%;
 }
