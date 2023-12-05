@@ -11,7 +11,7 @@ function DeleteUser(props) {
   return (
     <Modal>
       <div className="deleteUserWrapper">
-        <Title>Deletar {props.user.authorName}</Title>
+        <Title>Remover {props.user.authorName}</Title>
         <div className="deleteUserButtons">
           <Button
             style={{ width: "100%" }}
