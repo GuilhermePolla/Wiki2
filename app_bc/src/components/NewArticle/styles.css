@@ -1,0 +1,39 @@
+.outerWrapper {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 151px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkboxWrapper {
+  width: 100%;
+}
+
+.newArticleButtons {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.newArticleInputs {
+  width: 100%;
+  height: 100%;
+  /* max-height: calc(100vh - 292px); */
+  /* display: flex; */
+  flex-direction: column;
+
+  overflow-y: auto;
+}
+
+.newArticleInputsWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

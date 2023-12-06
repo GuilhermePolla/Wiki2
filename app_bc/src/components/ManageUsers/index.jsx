@@ -6,11 +6,13 @@ import EditUser from "../EditUser";
 import DeleteUser from "../DeleteUser";
 import axios from "axios";
 import { Button } from "../Button";
+import EnableUser from "../EnableUser";
 
 function ManageUsers(props) {
   const [users, setUsers] = useState([]);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [enableModal, setEnableModal] = useState(false);
 
   useEffect(() => {
     async function getUsers() {
@@ -25,7 +27,7 @@ function ManageUsers(props) {
     } catch (err) {
       alert(err);
     }
-  }, []);
+  }, [editModal, deleteModal, enableModal]);
   return (
     <div className="manageUsersWrapper">
       <Title>Editar Usuários</Title>
@@ -45,13 +47,16 @@ function ManageUsers(props) {
                     <span className="spanText">Email:</span> {user.authorEmail}
                   </p>
                   <p>
-                    <span className="spanText">Status:</span>
+                    <span className="spanText">Status:</span>{" "}
                     {user.authorStatus ? "Ativo" : "Inativo"}
                   </p>
                 </div>
                 <div className="buttonsWrapper">
                   <Button primary onClick={() => setEditModal(user._id)}>
                     Editar
+                  </Button>
+                  <Button onClick={() => setEnableModal(user._id)}>
+                    Ativar
                   </Button>
                   <Button onClick={() => setDeleteModal(user._id)}>
                     Remover
@@ -62,6 +67,9 @@ function ManageUsers(props) {
                 )}
                 {deleteModal === user._id && (
                   <DeleteUser setDeleteModal={setDeleteModal} user={user} />
+                )}
+                {enableModal === user._id && (
+                  <EnableUser setEnableModal={setEnableModal} user={user} />
                 )}
               </div>
             );

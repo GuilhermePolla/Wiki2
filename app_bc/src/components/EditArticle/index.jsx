@@ -1,57 +1,52 @@
-import "./styles.css";
+import { Button } from "../Button";
+import Label from "../Label";
 import Select from "../Select";
 import { Title } from "../Title";
-import { Button } from "../Button";
+import "./styles.css";
+import Modal from "@/components/Modal";
 import { TextInput } from "../TextInput";
-import Label from "../Label";
-import useSession from "@/utils/useSession";
 import axios from "axios";
 
-async function handleSubmit(e) {
+async function handleSubmit(e, article, setEditModal) {
   e.preventDefault();
   try {
-    const session = await useSession();
     const keywords = e.target.article_keywords.value.split(",");
     const res = await axios.post(
-      "http://localhost:3001/article/save",
+      `http://localhost:3001/article/edit/${article._id}`,
       {
         article_title: e.target.article_title.value,
         article_body: e.target.article_body.value,
         article_keywords: keywords,
         article_published: e.target.article_published.value,
         article_featured: e.target.article_featured.value,
-      },
-      {
-        headers: {
-          Authorization: `${session.authorToken}`,
-        },
       }
     );
     if (res.status === 200) {
-      alert("Artigo criado com sucesso");
-    }
-    if (res.status === 200) {
-      alert("Usuário criado com sucesso");
+      alert("Artigo editado com sucesso");
+      setEditModal(null);
     }
   } catch (err) {
-    alert("Erro ao criar usuário");
+    alert("Erro ao editar artigo");
     console.log(err);
   }
 }
 
-function NewArticle(props) {
+function EditArticle(props) {
   return (
-    <div className="outerWrapper">
-      <form onSubmit={handleSubmit} style={{ width: "100%", height: "100%" }}>
-        <div className="newArticleInputsWrapper">
-          <Title>Novo Artigo</Title>
-          <div className="newArticleInputs">
+    <Modal>
+      <form
+        onSubmit={(e) => handleSubmit(e, props.article, props.setEditModal)}
+        style={{ height: "100%" }}
+      >
+        <div className="editArticleWrapper">
+          <Title>Editar {props.article.article_title}</Title>
+          <div className="editArticleInputs">
             <Label htmlFor="article_title" text="Titulo" />
             <TextInput
               type="text"
               id="article_title"
               name="article_title"
-              defaultValue={""}
+              defaultValue={props.article.article_title}
               required
             />
             <Label htmlFor="article_body" text="Texto: " />
@@ -59,25 +54,18 @@ function NewArticle(props) {
               id="article_body"
               name="article_body"
               required
-              defaultValue={""}
-              placeholder="Digite..."
-              style={{
-                width: "100%",
-                borderRadius: "2px",
-                height: "fit-content",
-                minHeight: "100px",
-              }}
+              defaultValue={props.article.article_body}
+              cols={50}
+              rows={10}
+              style={{ width: "fit-content", borderRadius: "2px" }}
             />
 
             <Label htmlFor="article_keywords" text="Keywords: " />
-            <p style={{ color: "white", fontSize: "12px" }}>
-              Separadas apenas por uma vírgula.
-            </p>
             <TextInput
               type="text"
               id="article_keywords"
               name="article_keywords"
-              defaultValue={""}
+              defaultValue={props.article.article_keywords}
               required
             />
             <div className="checkboxWrapper">
@@ -88,6 +76,7 @@ function NewArticle(props) {
                   { label: "Não", value: false },
                 ]}
                 label={"Publicado:"}
+                selected={props.article.article_published}
               />
             </div>
             <div className="checkboxWrapper">
@@ -98,6 +87,7 @@ function NewArticle(props) {
                   { label: "Não", value: false },
                 ]}
                 label={"Sugestão:"}
+                selected={props.article.article_suggestion}
               />
             </div>
             <div className="checkboxWrapper">
@@ -108,18 +98,22 @@ function NewArticle(props) {
                   { label: "Não", value: false },
                 ]}
                 label={"Featured:"}
+                selected={props.article.article_featured}
               />
             </div>
           </div>
-          <div className="newArticleButtons">
-            <Button primary type="submit">
-              Criar
+          <div className="editUserButtons">
+            <Button type="button" onClick={() => props.setEditModal(null)}>
+              Fechar
+            </Button>
+            <Button type="submit" primary>
+              Salvar
             </Button>
           </div>
         </div>
       </form>
-    </div>
+    </Modal>
   );
 }
 
-export default NewArticle;
+export default EditArticle;
