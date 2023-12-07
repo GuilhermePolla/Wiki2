@@ -16,13 +16,13 @@ export default function User() {
           style={{ width: "100%" }}
           onClick={() => setOption("newArticle")}
         >
-          New Article
+          Novo Artigo
         </Button>
         <Button
           style={{ width: "100%" }}
           onClick={() => setOption("manageArticles")}
         >
-          Manage Articles
+          Editar Artigos
         </Button>
       </div>
       <div className="userContent">

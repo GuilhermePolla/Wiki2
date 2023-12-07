@@ -18,22 +18,22 @@ export default function Admin() {
           style={{ width: "100%" }}
           onClick={() => setOption("newArticle")}
         >
-          New Article
+          Novo Artigo
         </Button>
         <Button
           style={{ width: "100%" }}
           onClick={() => setOption("manageArticles")}
         >
-          Manage Articles
+          Editar Artigo
         </Button>
         <Button style={{ width: "100%" }} onClick={() => setOption("newUser")}>
-          New User
+          Novo Usuário
         </Button>
         <Button
           style={{ width: "100%" }}
           onClick={() => setOption("manageUsers")}
         >
-          Manage Users
+          Editar Usuários
         </Button>
       </div>
       <div className="adminContent">
