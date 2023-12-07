@@ -3,8 +3,9 @@
   height: fit-content;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
+  flex-direction: column;
 }
 
 .icon {
@@ -14,7 +15,7 @@
   background-color: transparent;
   color: #969696;
   position: absolute;
-  top: calc(50% - 12px);
+  top: calc(50% - 23px);
   right: 10px;
   cursor: pointer;
   &:hover {

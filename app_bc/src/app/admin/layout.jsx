@@ -20,6 +20,9 @@ export default function AdminLayout({ children }) {
     if (data.data.authorLevel === "admin") {
       return children;
     }
+    if (data.data.authorLevel === "user") {
+      redirect("/user", "replace");
+    }
     redirect("/", "replace");
   }
 }

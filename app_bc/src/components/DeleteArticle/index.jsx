@@ -2,8 +2,29 @@ import "./styles.css";
 import Modal from "@/components/Modal";
 import { Title } from "@/components/Title";
 import { Button } from "@/components/Button";
+import axios from "axios";
 
-async function handleDelete() {}
+async function handleDelete(article, setDeleteModal) {
+  try {
+    const res = await axios.post(
+      `http://localhost:3001/article/edit/${article._id}`,
+      {
+        article_title: article.article_title,
+        article_body: article.article_body,
+        article_keywords: article.article_keywords,
+        article_published: false,
+        article_featured: article.article_featured,
+      }
+    );
+    if (res.status === 200) {
+      alert("Artigo excluido com sucesso");
+      setDeleteModal(null);
+    }
+  } catch (err) {
+    alert("Erro ao excluir artigo");
+    console.log(err);
+  }
+}
 
 function DeleteArticle(props) {
   return (

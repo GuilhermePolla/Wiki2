@@ -61,6 +61,9 @@ function EditArticle(props) {
             />
 
             <Label htmlFor="article_keywords" text="Keywords: " />
+            <p style={{ color: "white", fontSize: "12px" }}>
+              Separadas apenas por uma vírgula.
+            </p>
             <TextInput
               type="text"
               id="article_keywords"

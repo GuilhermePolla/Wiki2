@@ -18,7 +18,7 @@ async function handleSubmit(e) {
         article_title: e.target.article_title.value,
         article_body: e.target.article_body.value,
         article_keywords: keywords,
-        article_published: e.target.article_published.value,
+        article_published: true,
         article_featured: e.target.article_featured.value,
       },
       {
@@ -77,7 +77,7 @@ function NewArticle(props) {
               defaultValue={""}
               required
             />
-            <div className="checkboxWrapper">
+            {/* <div className="checkboxWrapper">
               <Select
                 name="article_published"
                 options={[
@@ -86,7 +86,7 @@ function NewArticle(props) {
                 ]}
                 label={"Publicado:"}
               />
-            </div>
+            </div> */}
             <div className="checkboxWrapper">
               <Select
                 name="article_suggestion"

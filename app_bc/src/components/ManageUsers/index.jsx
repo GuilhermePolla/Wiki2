@@ -74,6 +74,11 @@ function ManageUsers(props) {
               </div>
             );
           })}
+        {users.length === 0 && (
+          <p style={{ color: "white", fontSize: "24px" }}>
+            Nenhum usuário encontrado
+          </p>
+        )}
       </div>
     </div>
   );

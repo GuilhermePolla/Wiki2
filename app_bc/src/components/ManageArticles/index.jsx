@@ -7,6 +7,8 @@ import EditArticle from "../EditArticle";
 import DeleteArticle from "../DeleteArticle";
 import useSession from "@/utils/useSession";
 import dateConverter from "@/utils/dateConverter";
+import { useRouter } from "next/navigation";
+import { LucideChevronRight } from "lucide-react";
 
 async function adminGet(session) {
   const articlesRes = await axios.get("http://localhost:3001/article/get-all", {
@@ -42,7 +44,10 @@ async function userGet(session) {
       },
     }
   );
-  const articles = articleRes.data.artigo;
+  const articles = articleRes.data.artigo.filter(
+    (current) => current.article_published
+  );
+
   return articles;
 }
 
@@ -53,7 +58,7 @@ async function getArticles(setArticles) {
       session.authorLevel === "admin"
         ? await adminGet(session)
         : await userGet(session);
-    console.log(articles);
+    // console.log(articles);
     setArticles(articles === undefined ? [] : articles);
   } catch (err) {
     alert(err);
@@ -64,6 +69,7 @@ function ManageArticles(props) {
   const [articles, setArticles] = useState([]);
   const [editModal, setEditModal] = useState(null);
   const [deleteModal, setDeleteModal] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     getArticles(setArticles);
@@ -100,7 +106,18 @@ function ManageArticles(props) {
                   </p>
                 </div>
                 <div className="buttonsWrapper">
-                  <Button primary onClick={() => setEditModal(article._id)}>
+                  <Button
+                    primary
+                    style={{
+                      display: "flex",
+                      width: "fit-content",
+                      heigh: "fit-content",
+                    }}
+                    onClick={() => router.push(`/document?id=${article._id}`)}
+                  >
+                    <p>Ler</p> <LucideChevronRight size={22} />
+                  </Button>
+                  <Button onClick={() => setEditModal(article._id)}>
                     Editar
                   </Button>
                   <Button onClick={() => setDeleteModal(article._id)}>
@@ -119,6 +136,11 @@ function ManageArticles(props) {
               </div>
             );
           })}
+        {articles.length === 0 && (
+          <p style={{ color: "white", fontSize: "24px" }}>
+            Nenhum artigo encontrado
+          </p>
+        )}
       </div>
     </div>
   );

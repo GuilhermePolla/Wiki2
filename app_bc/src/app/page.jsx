@@ -14,13 +14,17 @@ export default function Home() {
     async function load() {
       const res = await axios.get("http://localhost:3001/article/get-all");
       const articles = res.data.artigos;
-      setByLikes(
-        articles.sort((a, b) => b.article_liked_count - a.article_liked_count)
+
+      const featured = articles.filter(
+        (item) => item.article_featured && item.article_published
       );
-      setFeatured(articles.filter((item) => item.article_featured));
-      setCurrentArticle(
-        articles.find((item) => item.article_featured === true)
-      );
+      const byLikes = articles
+        .filter((item) => item.article_published)
+        .sort((a, b) => b.article_liked_count - a.article_liked_count);
+
+      setFeatured(featured);
+      setByLikes(byLikes);
+      setCurrentArticle(featured[0]);
     }
     load();
   }, []);
