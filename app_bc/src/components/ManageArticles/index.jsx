@@ -5,31 +5,62 @@ import { Button } from "@/components/Button";
 import { useEffect, useState } from "react";
 import EditArticle from "../EditArticle";
 import DeleteArticle from "../DeleteArticle";
+import useSession from "@/utils/useSession";
+import dateConverter from "@/utils/dateConverter";
+
+async function adminGet(session) {
+  const articlesRes = await axios.get("http://localhost:3001/article/get-all", {
+    headers: {
+      Authorization: `${session.authorToken}`,
+    },
+  });
+  const authorsRes = await axios.get(
+    "http://localhost:3001/author/get-all-authors",
+    {
+      headers: {
+        Authorization: `${session.authorToken}`,
+      },
+    }
+  );
+  const articles = articlesRes.data.artigos.map((article) => {
+    const author = authorsRes.data.autores.find(
+      (author) => author._id === article.article_author_id
+    );
+    return {
+      ...article,
+      authorUser: author.authorUser,
+    };
+  });
+  return articles;
+}
+async function userGet(session) {
+  const articleRes = await axios.get(
+    "http://localhost:3001/article/get-by-author/",
+    {
+      headers: {
+        Authorization: `${session.authorToken}`,
+      },
+    }
+  );
+  const articles = articleRes.data.artigo;
+  return articles;
+}
 
 async function getArticles(setArticles) {
+  const session = await useSession();
   try {
-    const articlesRes = await axios.get(
-      "http://localhost:3001/article/get-all"
-    );
-    const authorsRes = await axios.get(
-      "http://localhost:3001/author/get-all-authors"
-    );
-    const articles = articlesRes.data.artigos.map((article) => {
-      const author = authorsRes.data.autores.find(
-        (author) => author._id === article.article_author_id
-      );
-      return {
-        ...article,
-        authorUser: author.authorUser,
-      };
-    });
-    setArticles(articles);
+    const articles =
+      session.authorLevel === "admin"
+        ? await adminGet(session)
+        : await userGet(session);
+    console.log(articles);
+    setArticles(articles === undefined ? [] : articles);
   } catch (err) {
     alert(err);
   }
 }
 
-function ManageArticles() {
+function ManageArticles(props) {
   const [articles, setArticles] = useState([]);
   const [editModal, setEditModal] = useState(null);
   const [deleteModal, setDeleteModal] = useState(null);
@@ -51,10 +82,18 @@ function ManageArticles() {
                     <span className="spanText">Titulo:</span>{" "}
                     {article.article_title}
                   </p>
-                  <p>
-                    <span className="spanText">Usuário:</span>{" "}
-                    {article.authorUser}
-                  </p>
+                  {props.admin && (
+                    <p>
+                      <span className="spanText">Usuário:</span>{" "}
+                      {article.authorUser}
+                    </p>
+                  )}
+                  {props.user && (
+                    <p>
+                      <span className="spanText">Publicação:</span>{" "}
+                      {dateConverter(article.article_published_date)}
+                    </p>
+                  )}
                   <p>
                     <span className="spanText">Publicado:</span>{" "}
                     {article.article_published ? "Sim" : "Não"}

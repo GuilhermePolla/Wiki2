@@ -38,7 +38,7 @@ export default function Admin() {
       </div>
       <div className="adminContent">
         {option === "newArticle" && <NewArticle />}
-        {option === "manageArticles" && <ManageArticles />}
+        {option === "manageArticles" && <ManageArticles admin />}
         {option === "newUser" && <NewUser />}
         {option === "manageUsers" && <ManageUsers />}
       </div>

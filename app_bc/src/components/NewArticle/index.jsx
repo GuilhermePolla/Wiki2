@@ -30,9 +30,6 @@ async function handleSubmit(e) {
     if (res.status === 200) {
       alert("Artigo criado com sucesso");
     }
-    if (res.status === 200) {
-      alert("Usuário criado com sucesso");
-    }
   } catch (err) {
     alert("Erro ao criar usuário");
     console.log(err);
