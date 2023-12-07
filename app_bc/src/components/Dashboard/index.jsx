@@ -9,6 +9,23 @@ import { Profile } from "../Profile";
 import useOnClickOutsideRef from "@/utils/useOnClickOutsideRef";
 import Loader from "../Loader";
 import { useRouter } from "next/navigation";
+import useSession from "@/utils/useSession";
+
+async function handleSession(router, setSession) {
+  const session = await useSession();
+
+  if (session === null || session === undefined) return;
+  if (session.authorLevel === "user") {
+    setSession(session);
+    router.push("/");
+  }
+  if (session.authorLevel === "admin") {
+    setSession(session);
+    router.push("/");
+  } else {
+    router.push("/");
+  }
+}
 
 export function Dashboard(props) {
   const [search, setSearch] = useState("");
@@ -18,16 +35,13 @@ export function Dashboard(props) {
   const router = useRouter();
 
   useEffect(() => {
-    if (session === null || session === undefined) return;
-    if (session.authorLevel === "user") {
-      router.push("/user");
+    try {
+      handleSession(router, setSession);
+    } catch (err) {
+      alert("Erro ao carregar sessão");
+      console.log(err);
     }
-    if (session.authorLevel === "admin") {
-      router.push("/admin");
-    } else {
-      router.push("/");
-    }
-  }, [session, router]);
+  }, []);
 
   return (
     <div className="dashboard">
@@ -51,7 +65,7 @@ export function Dashboard(props) {
         style={{ width: "25vw" }}
         onBlur={(e) => setSearch(e.target.value)}
         onClick={() => {
-          console.log(search);
+          router.push("/search?keywords=" + search);
         }}
       />
       <Navbar />

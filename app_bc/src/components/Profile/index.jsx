@@ -28,7 +28,7 @@ export async function Profile({ session, setSession }) {
         alert("Erro ao fazer login");
       }
 
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.log(error);
     }

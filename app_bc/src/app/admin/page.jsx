@@ -5,6 +5,8 @@ import "./styles.css";
 import ManageUsers from "@/components/ManageUsers";
 import NewUser from "@/components/NewUser";
 import { Title } from "@/components/Title";
+import ManageArticles from "@/components/ManageArticles";
+import NewArticle from "@/components/NewArticle";
 
 export default function Admin() {
   const [option, setOption] = useState();
@@ -35,8 +37,8 @@ export default function Admin() {
         </Button>
       </div>
       <div className="adminContent">
-        {option === "newArticle" && <p>Formulario newArticle</p>}
-        {option === "manageArticles" && <p>Lista manageArticles</p>}
+        {option === "newArticle" && <NewArticle />}
+        {option === "manageArticles" && <ManageArticles admin />}
         {option === "newUser" && <NewUser />}
         {option === "manageUsers" && <ManageUsers />}
       </div>

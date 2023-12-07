@@ -1,0 +1,19 @@
+.searchPageWrapper {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+}
+
+.searchPageWrapper h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cardsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
