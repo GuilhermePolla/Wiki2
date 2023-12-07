@@ -26,7 +26,7 @@ async function handleSearch(keywords, setArticles) {
   }
 }
 
-export default function SearchPage() {
+function SearchPage() {
   const [articles, setArticles] = useState([]);
   const searchParams = useSearchParams();
   const keywords = searchParams.get("keywords");
@@ -53,3 +53,5 @@ export default function SearchPage() {
     </div>
   );
 }
+
+export default SearchPage;
