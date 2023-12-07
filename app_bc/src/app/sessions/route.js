@@ -45,6 +45,7 @@ export async function POST(req) {
     await session.save();
   } catch (err) {
     console.log(err);
+    return NextResponse.json(null,{status: 200});
   }
   return NextResponse.json(session, { status: 200 });
 }

@@ -23,10 +23,14 @@ const logIn= async (authorData) => {
         if(!author){
             throw new Error('Credenciais Incorretas');
         }
+        if(!author.authorStatus){
+            throw new Error('Usuário Inativo');
+        }
         const isPassword = authorData.authorPwd;
         const password = hashPwd(isPassword);
         if(author.authorPwd !== password){
             throw new Error('Credenciais Incorretas');
+            
         }
         author.authorToken = createToken(authorData);
         const token = author.authorToken;

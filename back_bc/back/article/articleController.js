@@ -36,7 +36,6 @@ const like = async (id) => {
   try {
     const article = await Article.findOne({ _id: id });
     article.article_liked_count++;
-    article.article_body = "test";
     article.save();
 
     return article;
