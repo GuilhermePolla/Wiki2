@@ -93,10 +93,9 @@ articleRouter.get('/get-by-author/',authentication, async (req,res) =>{
   }
 });
 
-articleRouter.get('/search/:filter', async(req,res) =>{
+articleRouter.get('/search/', async(req,res) =>{
   try{
-    const filter = req.params.filter;
-    const result = await articleController.searchArticle(filter);
+    const result = await articleController.searchArticle(req.body.filter);
     if (!result) {
       res.status(404).json({ erro: `Nenhum artigo encontrado` });
       return;

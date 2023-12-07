@@ -88,12 +88,11 @@ const getByAuthor = async(author) => {
 
 const searchArticle = async(filter) => {
   try{
-    const result = await Article.find({
-      $or: [
-        {article_title: {$regex: filter, $options: 'i'}},
-        {article_keywords: {$regex: filter, $options: 'i'}},
-      ]
-    });
+    const keywords = filter.split(',');
+    const filterQuery = {
+      $or: keywords.map(keyword => ({ article_keywords: keyword })),
+    };
+    const result = await Article.find(filterQuery)
     return result;
   }
   catch(error){
